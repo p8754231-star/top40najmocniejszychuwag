@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UwagiSzkolne.pl — Top 40 Najmocniejszych Uwag</title>
+  <style>
+    :root {
+      --bg-dark: #0f172a;
+      --card-bg: #1e293b;
+      --card-border: #334155;
+      --accent-pink: #ec4899;
+      --accent-cyan: #06b6d4;
+      --accent-yellow: #f59e0b;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      padding: 20px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 25px;
+      max-width: 800px;
+      width: 100%;
+    }
+
+    h1 {
+      font-size: 2.2rem;
+      background: linear-gradient(135deg, var(--accent-pink), var(--accent-cyan));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 10px;
+    }
+
+    p.subtitle {
+      color: var(--text-muted);
+      font-size: 1.05rem;
+    }
+
+    .tea-bar {
+      background: rgba(30, 41, 59, 0.9);
+      border: 1px solid var(--accent-yellow);
+      border-radius: 12px;
+      padding: 10px 18px;
+      margin-top: 15px;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 600;
+      color: var(--accent-yellow);
+      box-shadow: 0 0 15px rgba(245, 158, 11, 0.2);
+    }
+
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      justify-content: center;
+      width: 100%;
+      max-width: 900px;
+      margin-bottom: 25px;
+    }
+
+    input[type="text"] {
+      flex: 1;
+      min-width: 240px;
+      padding: 12px 16px;
+      border-radius: 8px;
+      border: 1px solid var(--card-border);
+      background-color: var(--card-bg);
+      color: var(--text-main);
+      font-size: 1rem;
+      outline: none;
+    }
+
+    input[type="text"]:focus {
+      border-color: var(--accent-cyan);
+    }
+
+    .btn {
+      padding: 12px 18px;
+      border-radius: 8px;
+      border: none;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.15s;
+    }
+
+    .btn:active {
+      transform: scale(0.97);
+    }
+
+    .btn-random {
+      background: linear-gradient(135deg, var(--accent-pink), #8b5cf6);
+      color: white;
+    }
+
+    .btn-reset {
+      background: var(--card-bg);
+      color: var(--text-muted);
+      border: 1px solid var(--card-border);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 18px;
+      width: 100%;
+      max-width: 1100px;
+    }
+
+    .card {
+      background-color: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+    }
+
+    .card-number {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      font-size: 0.8rem;
+      font-weight: bold;
+      color: var(--text-muted);
+      background: rgba(255, 255, 255, 0.05);
+      padding: 2px 8px;
+      border-radius: 10px;
+    }
+
+    .teacher-section {
+      margin-bottom: 12px;
+    }
+
+    .label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: bold;
+      margin-bottom: 6px;
+      color: var(--accent-pink);
+    }
+
+    .teacher-text {
+      color: var(--text-main);
+      font-size: 1.05rem;
+      line-height: 1.4;
+      font-weight: 500;
+    }
+
+    .copy-btn {
+      margin-top: 14px;
+      align-self: flex-end;
+      background: transparent;
+      border: 1px solid var(--card-border);
+      color: var(--text-muted);
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      cursor: pointer;
+    }
+
+    .copy-btn:hover {
+      border-color: var(--accent-cyan);
+      color: var(--accent-cyan);
+    }
+
+    footer {
+      margin-top: 40px;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>UwagiSzkolne.pl</h1>
+    <p class="subtitle">Top 40 Najmocniejszych Uwag ze Szkolnych Dzienniczków</p>
+
+  <div class="controls">
+    <input type="text" id="searchInput" placeholder="Szukaj uwagi..." oninput="filterCards()">
+    <button class="btn btn-random" onclick="showRandomCard()">🎲 Losowa uwaga</button>
+    <button class="btn btn-reset" onclick="resetCards()">🔄 Pokaż wszystkie</button>
+  </div>
+
+  <div class="grid" id="cardGrid"></div>
+
+  <footer>
+    <p>&copy; 2026 Najmocniejsze 40 Uwag Szkolne.pl. Wszelkie prawa zastrzeżone.</p>
+  </footer>
+
+  <script>
+    const data = [
+      { id: 1, text: "Uczeń usiadł na koledze i powiedział: 'IDŹMY W ŚWIAT, CHICKEN JOCKEY!'" },
+      { id: 2, text: "Kradną ze szkolnej kuchni ziemniaki i robią z woźną frytki." },
+      { id: 3, text: "Wyrwany do odpowiedzi oświadczył, że nie będzie zeznawał bez obecności adwokata." },
+      { id: 4, text: "Podtapia kolegę na basenie, twierdząc, że tamten ma skrzela i sobie poradzi." },
+      { id: 5, text: "Przyłapany na paleniu w toalecie broni się, mówiąc, że tylko 'wykurza robale z kibla'." },
+      { id: 6, text: "Ludwik smażył tosty na kaloryferze na lekcji geografii." },
+      { id: 7, text: "Ukradł ze szkolnego WC sedes i przechowuje go w tornistrze." },
+      { id: 8, text: "Wysłany w celu namoczenia gąbki wrócił z mokrą głową i suchą gąbką." },
+      { id: 9, text: "Odmówił odpowiedzi z polskiego, twierdząc, że tekst gwałci jego poczucie estetyki." },
+      { id: 10, text: "Podpalił koledze teczkę i zapytał nauczyciela, czy może wyjść po gaśnicę." },
+      { id: 11, text: "Magda na lekcji zamówiła kebaba i powiedziała nauczycielce, że jest 'skibidi sigmą'." },
+      { id: 12, text: "Nataniel skoczył na nauczycielkę ze słowami: 'Giń w skibidi Ohio!'" },
+      { id: 13, text: "Naraża kolegów na śmierć, rzucając kredką po klasie." },
+      { id: 14, text: "Zamknął nauczyciela w sali na klucz i odmówił składania zeznań." },
+      { id: 15, text: "Na pytanie, dlaczego brak mu spodenek na WF, uczeń odparł: 'Babcia jeszcze na drutach robi'." },
+      { id: 16, text: "Na lekcji religii oświadczył, że identyfikuje się jako toster." },
+      { id: 17, text: "Zjada ściągi po napisaniu klasówki." },
+      { id: 18, text: "Rzucił w nauczyciela doniczką i krzyknął na całą salę: 'Trafiłem!'" },
+      { id: 19, text: "Z radości, że nie ma nauczyciela, zwalił tablicę na ziemię." },
+      { id: 20, text: "Po kichnięciu nauczycielki krzyknął: 'Żeby Ci ryja nie urwało!'" },
+      { id: 21, text: "Kowalski w trakcie lekcji uprawiał ziemię cyrklem w doniczce." },
+      { id: 22, text: "Głośno pierdzi i je gówniane rzeczy na śniadanie." },
+      { id: 23, text: "Pije wodę z kranu, głośno mówiąc klasie: 'Kaca mam'." },
+      { id: 24, text: "Demonstrując wybuch gejzeru, opryskał pomidorem całą klasę." },
+      { id: 25, text: "Uczeń na lekcji zaczął krzyczeć, że jest pterodaktylem, po czym wybiegł z klasy." },
+      { id: 26, text: "Przemek bawi się na lekcji wszystkim, nawet chorym palcem kolegów." },
+      { id: 27, text: "Wyrzucił koledze teczkę za okno i powiedział: 'Jak kocha, to wróci'." },
+      { id: 28, text: "Uczennica mimo wielokrotnych zakazów uporczywie chodzi do biblioteki." },
+      { id: 29, text: "Rzuca ślimakami po klasie." },
+      { id: 30, text: "Schowany za podręcznikiem wydaje dźwięki przyprawiające mnie o mdłości." },
+      { id: 31, text: "Biega po klasie, udając konia, po czym tura się po podłodze." },
+      { id: 32, text: "Na wycieczce szkolnej dokonał zakupu 'pamiątek' w sklepie monopolowym." },
+      { id: 33, text: "Zabrał z ubikacji przetykacz do WC i robi nim stemple na ścianie." },
+      { id: 34, text: "Mateusz na przerwie wchodzi do szafki i się zamyka." },
+      { id: 35, text: "Siedzi w ławce i zachowuje się niepokojąco podejrzanie." },
+      { id: 36, text: "Stwierdził nieprzygotowanie z powodu śmierci babci, z którą jechałam rano tramwajem." },
+      { id: 37, text: "Gra puszką na przerwie i twierdzi, że to oficjalny mecz Ligi Mistrzów." },
+      { id: 38, text: "Przybył do szkoły bez zeszytu i podręczników, bo 'prowadzi minimalistyczny styl życia'." },
+      { id: 39, text: "Podał fałszywe imię, motywując to tym, że chciałby się tak nazywać." },
+      { id: 40, text: "Zakłóca porządek przerwy, wyjąc z kolegami pieśni patriotyczne." }
+    ];
+
+    function renderCards(items) {
+      const grid = document.getElementById('cardGrid');
+      grid.innerHTML = '';
+      if (items.length === 0) {
+        grid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: var(--text-muted); padding: 30px;">Brak wyników.</p>';
+        return;
+      }
+      items.forEach(item => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.innerHTML = `
+          <span class="card-number">#${item.id}</span>
+          <div>
+            <div class="teacher-section">
+              <div class="label">Uwaga szkolna</div>
+              <div class="teacher-text">"${item.text}"</div>
+            </div>
+          </div>
+          <button class="copy-btn" onclick="copyCardText('${item.text}')">📋 Kopiuj</button>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    function filterCards() {
+      const query = document.getElementById('searchInput').value.toLowerCase();
+      const filtered = data.filter(item => 
+        item.text.toLowerCase().includes(query)
+      );
+      renderCards(filtered);
+    }
+
+    function showRandomCard() {
+      const randomIndex = Math.floor(Math.random() * data.length);
+      renderCards([data[randomIndex]]);
+      document.getElementById('searchInput').value = '';
+    }
+
+    function resetCards() {
+      document.getElementById('searchInput').value = '';
+      renderCards(data);
+    }
+
+    function copyCardText(text) {
+      const formattedText = `Uwaga: "${text}"`;
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(formattedText).then(() => alert("Skopiowano uwagę do schowka!"));
+      } else {
+        alert(formattedText);
+      }
+    }
+
+    renderCards(data);
+  </script>
+</body>
+</html>
